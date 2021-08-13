@@ -5,7 +5,8 @@
         moduleConfig="true" 
         translatable="false">ALWAYS_SEND</string>
     <string 
-        name="appCenterCrashes_whenToEnableAnalytics" 
+        name="appCenterAnalytics_whenToEnableAnalytics"
         moduleConfig="true" 
         translatable="false">ALWAYS_SEND</string>
+
 </resources>
