@@ -6,25 +6,42 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import {SafeAreaView, StyleSheet, useColorScheme} from 'react-native';
+import React, {useEffect} from 'react';
+import {Button, SafeAreaView, StyleSheet, useColorScheme} from 'react-native';
+import Crashes from 'appcenter-crashes';
+import Analytics from 'appcenter-analytics';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const App = () => {
+  useEffect(() => {
+    checkPreviousSession();
+  }, []);
+
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const checkPreviousSession = async () => {
+    const didCrash = await Crashes.hasCrashedInLastSession();
+    if (didCrash) {
+      const report = await Crashes.lastSessionCrashReport();
+      alert("Sorry about that crash, we're working on a solution");
+    }
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <Button
-        title="Crash"
-        onPress={() => {
-          throw new Error('Some text in here');
-        }}
+        title="Calculate Inflation"
+        onPress={() =>
+          Analytics.trackEvent('calculate_inflation', {
+            Internet: 'Cellular',
+            GPS: 'On',
+          })
+        }
       />
     </SafeAreaView>
   );
